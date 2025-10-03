@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.core.exceptions import ValidationError
 
 
 class CinemaHall(models.Model):
@@ -84,13 +85,13 @@ class Ticket(models.Model):
     seat = models.IntegerField()
 
     @staticmethod
-    def validate_place(value, num_attr, attr_name, hall_name, error_to_raise):
+    def validate_place(value, num_attr, attr_name, hall_attr_name, error_to_raise):
         if not (1 <= value <= num_attr):
             raise error_to_raise(
                 {
                     attr_name: f"{attr_name} "
                     f"number must be in available range: "
-                    f"(1, {num_attr}) for cinema hall {hall_name}."
+                    f"(1, {num_attr}) for cinema hall attribute {hall_attr_name}."
                 }
             )
 
@@ -107,7 +108,7 @@ class Ticket(models.Model):
                 count_attrs,
                 ticket_attr_name,
                 cinema_hall_attr_name,
-                ValueError
+                ValidationError
             )
 
     def save(
