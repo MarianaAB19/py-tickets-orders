@@ -85,13 +85,20 @@ class Ticket(models.Model):
     seat = models.IntegerField()
 
     @staticmethod
-    def validate_place(value, num_attr, attr_name, hall_attr_name, error_to_raise):
+    def validate_place(
+            value,
+            num_attr,
+            attr_name,
+            hall_attr_name,
+            error_to_raise
+    ):
         if not (1 <= value <= num_attr):
             raise error_to_raise(
                 {
                     attr_name: f"{attr_name} "
                     f"number must be in available range: "
-                    f"(1, {num_attr}) for cinema hall attribute {hall_attr_name}."
+                    f"(1, {num_attr}) "
+                    f"for cinema hall attribute {hall_attr_name}."
                 }
             )
 
